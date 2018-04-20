@@ -11,19 +11,19 @@ class HomeView extends React.Component {
     // test: PropTypes.string
   };
 
-  handleSubmit(e){
-    e.preventDefault()
-    const {createUser} = this.props
+  handleSubmit(e) {
+    e.preventDefault();
+    const { createUser } = this.props;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         // console.log('Received values of form: ', values);
-        createUser(values)
+        createUser(values);
       }
     });
   }
 
   render() {
-    const { getFieldDecorator} = this.props.form;
+    const { getFieldDecorator } = this.props.form;
 
     return (
       <Row>
@@ -33,10 +33,10 @@ class HomeView extends React.Component {
               <p>Please enter your name as you want it to appear in the chat</p>
               <FormItem>
                 {getFieldDecorator('nickname', {
-                  rules: [{ required: true, message: 'Please input your username!' }],
-                })(
-                  <Input placeholder="Nickname" />
-                )}
+                  rules: [
+                    { required: true, message: 'Please input your username!' }
+                  ]
+                })(<Input placeholder="Nickname" />)}
               </FormItem>
               <FormItem>
                 <Button type="primary" htmlType="submit">
@@ -51,4 +51,4 @@ class HomeView extends React.Component {
   }
 }
 const WrappedHomeView = Form.create()(HomeView);
-export default WrappedHomeView
+export default WrappedHomeView;

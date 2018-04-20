@@ -3,7 +3,10 @@
  */
 const userService = require('./user')
 const msgService = require('./message')
-let channels = []
+let channels = [{
+  id: 'default',
+  users: []
+}]
 
 exports.getChannels = () => {
   return channels.map(ch => fillChannels(ch))
@@ -31,7 +34,7 @@ exports.addUserToChannel = (cid, uid) => {
 function fillChannels(channel) {
   const res = {
     ...channel,
-    users: userService.getUsers().filter(u => u.channel === channel.id).length
+    users: userService.getUsers().filter(u => u.channel === channel.id)
   }
   return res
 }

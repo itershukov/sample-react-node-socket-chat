@@ -21,7 +21,8 @@
     "redux-saga": "^0.16.0",
     "redux-subspace": "^2.4.0",
     "redux-subspace-wormhole": "^2.4.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "socket.io-client": "^2.1.0"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css}": [
@@ -71,7 +72,10 @@
     "lint-staged": "^7.0.0",
     "prettier": "^1.11.1",
     "react-scripts": "1.1.1",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "react-test-renderer": "^16.3.2"
   },
   "proxy": {
     "/socket.io": {

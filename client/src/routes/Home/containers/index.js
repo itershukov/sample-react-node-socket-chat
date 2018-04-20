@@ -3,20 +3,20 @@
  */
 import { connect } from 'react-redux';
 import View from '../components';
-import {withReducer} from "react-redux-dynamic-reducer/lib/index";
+import { withReducer } from 'react-redux-dynamic-reducer/lib/index';
 
-import {createUser} from "../../../actions/users";
-import Reducer from "../reducers";
+import { createUser } from '../../../actions/users';
+import Reducer from '../reducers';
 
 const mapDispatchToProps = {
-  createUser,
+  createUser
 };
 
 const mapStateToProps = state => {
   return {
-    user: state.users ?  state.users.user : {}
+    user: state.user || {}
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(
-  withReducer(Reducer, 'users', { namespaceActions: false })(View)
+  withReducer(Reducer, 'user', { namespaceActions: false })(View)
 );

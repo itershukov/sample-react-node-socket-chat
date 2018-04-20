@@ -1,0 +1,251 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot <Home /> View should be the same 1`] = `
+<div
+  className="ant-row"
+  style={undefined}
+>
+  <div
+    className="ant-col-12 ant-col-offset-6"
+  >
+    <div
+      className="ant-card ant-card-bordered"
+      style={
+        Object {
+          "marginTop": 20,
+        }
+      }
+    >
+      <div
+        className="ant-card-body"
+        style={undefined}
+      >
+        <form
+          className="ant-form ant-form-horizontal"
+          onSubmit={[Function]}
+        >
+          <p>
+            Please enter your name as you want it to appear in the chat
+          </p>
+          <div
+            className="ant-row ant-form-item"
+            style={undefined}
+          >
+            <div
+              className="ant-form-item-control-wrapper"
+            >
+              <div
+                className="ant-form-item-control"
+              >
+                <span
+                  className="ant-form-item-children"
+                >
+                  <input
+                    className="ant-input"
+                    data-__field={
+                      Object {
+                        "name": "nickname",
+                      }
+                    }
+                    data-__meta={
+                      Object {
+                        "name": "nickname",
+                        "originalProps": Object {
+                          "disabled": false,
+                          "placeholder": "Nickname",
+                          "prefixCls": "ant-input",
+                          "type": "text",
+                        },
+                        "ref": null,
+                        "rules": Array [
+                          Object {
+                            "message": "Please input your username!",
+                            "required": true,
+                          },
+                        ],
+                        "trigger": "onChange",
+                        "validate": Array [
+                          Object {
+                            "rules": Array [
+                              Object {
+                                "message": "Please input your username!",
+                                "required": true,
+                              },
+                            ],
+                            "trigger": Array [
+                              "onChange",
+                            ],
+                          },
+                        ],
+                        "valuePropName": "value",
+                      }
+                    }
+                    disabled={false}
+                    id="nickname"
+                    onChange={[Function]}
+                    onKeyDown={[Function]}
+                    placeholder="Nickname"
+                    type="text"
+                    value=""
+                  />
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            className="ant-row ant-form-item"
+            style={undefined}
+          >
+            <div
+              className="ant-form-item-control-wrapper"
+            >
+              <div
+                className="ant-form-item-control"
+              >
+                <span
+                  className="ant-form-item-children"
+                >
+                  <button
+                    className="ant-btn ant-btn-primary"
+                    onClick={[Function]}
+                    type="submit"
+                  >
+                    <span>
+                      Start messaging
+                    </span>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Snapshot <Home /> View should be the same 2`] = `
+<div
+  className="ant-row"
+  style={undefined}
+>
+  <div
+    className="ant-col-12 ant-col-offset-6"
+  >
+    <div
+      className="ant-card ant-card-bordered"
+      style={
+        Object {
+          "marginTop": 20,
+        }
+      }
+    >
+      <div
+        className="ant-card-body"
+        style={undefined}
+      >
+        <form
+          className="ant-form ant-form-horizontal"
+          onSubmit={[Function]}
+        >
+          <p>
+            Please enter your name as you want it to appear in the chat
+          </p>
+          <div
+            className="ant-row ant-form-item"
+            style={undefined}
+          >
+            <div
+              className="ant-form-item-control-wrapper"
+            >
+              <div
+                className="ant-form-item-control"
+              >
+                <span
+                  className="ant-form-item-children"
+                >
+                  <input
+                    className="ant-input"
+                    data-__field={
+                      Object {
+                        "name": "nickname",
+                      }
+                    }
+                    data-__meta={
+                      Object {
+                        "name": "nickname",
+                        "originalProps": Object {
+                          "disabled": false,
+                          "placeholder": "Nickname",
+                          "prefixCls": "ant-input",
+                          "type": "text",
+                        },
+                        "ref": null,
+                        "rules": Array [
+                          Object {
+                            "message": "Please input your username!",
+                            "required": true,
+                          },
+                        ],
+                        "trigger": "onChange",
+                        "validate": Array [
+                          Object {
+                            "rules": Array [
+                              Object {
+                                "message": "Please input your username!",
+                                "required": true,
+                              },
+                            ],
+                            "trigger": Array [
+                              "onChange",
+                            ],
+                          },
+                        ],
+                        "valuePropName": "value",
+                      }
+                    }
+                    disabled={false}
+                    id="nickname"
+                    onChange={[Function]}
+                    onKeyDown={[Function]}
+                    placeholder="Nickname"
+                    type="text"
+                    value=""
+                  />
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            className="ant-row ant-form-item"
+            style={undefined}
+          >
+            <div
+              className="ant-form-item-control-wrapper"
+            >
+              <div
+                className="ant-form-item-control"
+              >
+                <span
+                  className="ant-form-item-children"
+                >
+                  <button
+                    className="ant-btn ant-btn-primary"
+                    onClick={[Function]}
+                    type="submit"
+                  >
+                    <span>
+                      Start messaging
+                    </span>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+`;

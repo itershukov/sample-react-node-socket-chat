@@ -38,20 +38,6 @@ const session = require("express-session")({
 
 io.use(sharedsession(session));
 
-// io.on("connection", function(socket) {
-//   // Accept a login event with user's data
-//   socket.on("login", function(userdata) {
-//     socket.handshake.session.userdata = userdata;
-//     socket.handshake.session.save();
-//   });
-//   socket.on("logout", function(userdata) {
-//     if (socket.handshake.session.userdata) {
-//       delete socket.handshake.session.userdata;
-//       socket.handshake.session.save();
-//     }
-//   });
-// });
-
 app.use(session);
 server.listen(port);
 server.on('error', onError);
@@ -59,8 +45,27 @@ server.on('listening', onListening);
 
 io.on('connection', function (socket) {
   console.log('connection')
-  socket.emit('channels', {code: 200, body: channelService.getChannels()});
-  socket.on('channels', function (data) {
+
+  const {userdata} = socket.handshake.session
+
+  if (userdata)
+    socket.emit('channels', {code: 200, action: 'INIT', body: channelService.getChannels()});
+
+  socket.on('disconnect', (reason) => {
+    const {userdata} = socket.handshake.session
+    if (userdata) {
+      const disconnected = userService.disconnectUserFromChannels(userdata.id)
+      if (!disconnected)
+        return
+
+      const channel = channelService.getChannel(disconnected)
+
+      const res = {code: 200, action: 'UPDATE', body: channel}
+      io.sockets.emit('channels', res)
+    }
+  });
+
+  socket.on('channels', function (data, cb) {
     console.log(data);
     const {type, body} = data
       , {userdata} = socket.handshake.session
@@ -72,8 +77,8 @@ io.on('connection', function (socket) {
       case 'CREATE':
         {
           const ch = channelService.createChannel(body)
-          const res = {code: 200, body: ch}
-          socket.broadcast.emit('channels', res)
+          const res = {code: 200, action: 'CREATE', body: ch}
+          io.sockets.emit('channels', res)
         }
         break;
       case 'JOIN':
@@ -81,26 +86,45 @@ io.on('connection', function (socket) {
           const chId = body
           const connected = userService.connectUserToChannel(userdata.id, chId)
           if (!connected)
-            return socket.emit('channels', {code: 400, body})
+            return cb({code: 400, body})
 
-          const res = {code: 200, body: chId}
+          const channel = channelService.getChannel(chId)
+
+          const res = {code: 200, action: 'UPDATE', body: channel}
           socket.on(chId, function(data){
             const {type, body} = data
             const msg = messageService.createMessage({...body, author: userdata.id, channel: chId})
-            const res = {code: 200, body: msg}
-            socket.broadcast.to(chId).emit(res)
+            const res = {code: 200, action: "NEWMSG", body: msg}
+            io.sockets.emit(chId, res)
           });
-          socket.emit('channels', res)
+          cb({code: 200, body:channel})
+          messageService.getMessages({channel: chId})
+            .forEach(msg => io.sockets.emit(chId, {code: 200, action: "NEWMSG", body: msg}))
+          io.sockets.emit('channels', res)
+        }
+        break;
+      case 'LEAVE':
+        {
+          const disconnected = userService.disconnectUserFromChannels(userdata.id)
+          if (!disconnected)
+            return cb({code: 400, body})
+
+          const channel = channelService.getChannel(disconnected)
+
+          const res = {code: 200, action: 'UPDATE', body: channel}
+          socket.removeAllListeners(channel.id);
+          cb({code: 200, body:channel})
+          io.sockets.emit('channels', res)
         }
         break;
       case 'GET':
         {
           const res = {code: 200, body: channelService.getChannels()}
+          cb(res)
         }
-        socket.emit('channels', res);
       default:
         const res = {code: 400, body}
-        socket.emit('channels', res)
+        cb(res)
     }
   });
   socket.on('users', function (data, cb) {
@@ -115,12 +139,12 @@ io.on('connection', function (socket) {
           socket.handshake.session.userdata = usr
           socket.handshake.session.save()
           cb(res)
-          socket.emit('users', res)
+          io.sockets.emit('users', res)
         }
         break;
       default:
         const res = {code: 400, body}
-        socket.emit('users', res)
+        io.sockets.emit('users', res)
     }
   });
 });

@@ -6,11 +6,9 @@ import { buildSuccessActionType } from 'helpers/actionHandlerFactory';
 // Action Handlers
 // -----------------------------------
 let ACTION_HANDLERS = {
-  [buildSuccessActionType('POST', 'user')]: (state, action) => ({
-    ...state,
-    ...action.payload
-  }),
-  APP_DATA_CLEAR: (state, action) => null
+  [buildSuccessActionType('POST', 'logout')]: (state, action) => {
+    return {};
+  }
 };
 //custom
 

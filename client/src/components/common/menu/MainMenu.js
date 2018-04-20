@@ -3,34 +3,53 @@
  */
 import React, { Component } from 'react';
 import { Menu, Icon } from 'antd';
-import { Link } from 'react-router-dom';
+import { withReducer } from 'react-redux-dynamic-reducer/lib/index';
+import Reducer from '../../../routes/Channels/reducers';
+import { connect } from 'react-redux';
+import { logout } from 'actions/users';
+import { withRouter } from 'react-router';
 
-export default class MailMenu extends Component {
+class MainMenu extends Component {
+  handleClick(event) {
+    if (event.key === 'logout') {
+      this.props.logout();
+      return;
+    }
+
+    this.props.history.push(event.key);
+  }
+
   render() {
     return (
       <div>
         <div className="logo" />
-        <Menu theme="dark" defaultSelectedKeys={['home']} mode="inline">
-          <Menu.Item key="home">
-            <Link to="/">
-              <Icon type="home" />
-              <span>Home</span>
-            </Link>
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={['home']}
+          mode="horizontal"
+          onClick={this.handleClick.bind(this)}
+        >
+          <Menu.Item key="/channels">
+            <Icon type="home" />
+            <span>Home</span>
           </Menu.Item>
-          <Menu.Item key="users">
-            <Icon type="pie-chart" />
-            <span>
-              <Link to="/users">Users</Link>
-            </span>
-          </Menu.Item>
-          <Menu.Item key="posts">
-            <Icon type="desktop" />
-            <span>
-              <Link to="/posts">Posts</Link>
-            </span>
+
+          <Menu.Item className="pull-right" key="logout">
+            <Icon type="logout" />
+            <span>Logout</span>
           </Menu.Item>
         </Menu>
       </div>
     );
   }
 }
+
+const mapDispatchToProps = {
+  logout
+};
+
+export default connect(null, mapDispatchToProps)(
+  withReducer(Reducer, 'channels', { namespaceActions: false })(
+    withRouter(MainMenu)
+  )
+);

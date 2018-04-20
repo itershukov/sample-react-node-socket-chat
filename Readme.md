@@ -1,10 +1,35 @@
-## To start
+#Server
+## To start 
+From root folder
+
+### yarn
+yarn <br>
+yarn start - to start <br>
+
+#####or
+
+### npm
+npm i <br>
+npm start - to start <br>
+
+## Used tools
+
+   - express - to build API
+   - socket.io  - to interact with client
+   
+This project was bootstrapped with [Express generator](https://github.com/expressjs/generator).   
+   
+#Client
+## To start 
+From ./client folder
 
 ### yarn
 yarn <br>
 yarn start - to start <br>
 yarn run build - to build client into ./build <br>
 yarn run test - to run tests <br>
+
+#####or
 
 ### npm
 npm i <br>

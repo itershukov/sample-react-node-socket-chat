@@ -2,19 +2,19 @@
   background: white;
   padding: 15px;
 
-  &--item{
+  &__item{
     width: 40%;
     padding: 10px;
     background: linear-gradient(to right, lightskyblue , lightblue);
     border-radius: 5px;
 
-    &--header{
-      &--author{
+    &__header{
+      &__author{
         font-weight: bold;
         float: left
       }
 
-      &--date{
+      &__date{
         color: white;
         float: right;
         font-style: italic;
@@ -22,7 +22,7 @@
       }
     }
 
-    &--message{
+    &__message{
       padding-top: 10px;
       clear: both;
       text-align: left;
@@ -31,18 +31,18 @@
     float: left;
     clear: both;
 
-    &__my{
+    &_my{
       float: right;
       background: none;
       border: 1px solid gray;
     }
 
-    &__my &--header--date{
+    &_my &__header__date{
       color: gray;
     }
   }
 
-  &--item + &--item{
+  &__item + &__item{
     margin-top: 15px;
   }
 

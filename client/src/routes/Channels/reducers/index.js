@@ -6,11 +6,17 @@ import { buildSuccessActionType } from 'helpers/actionHandlerFactory';
 // Action Handlers
 // -----------------------------------
 let ACTION_HANDLERS = {
-  [buildSuccessActionType('POST', 'user')]: (state, action) => ({
+  [buildSuccessActionType('GET', 'channels')]: (state, action) => ({
     ...state,
-    ...action.payload
+    ...action.payload.reduce((acc, ch) => {
+      acc[ch.id] = ch;
+      return acc;
+    }, {})
   }),
-  APP_DATA_CLEAR: (state, action) => null
+  [buildSuccessActionType('GET', 'channel')]: (state, action) => ({
+    ...state,
+    [action.payload.id]: action.payload
+  })
 };
 //custom
 
@@ -18,7 +24,6 @@ let ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {};
-
 export default function Reducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];
   return handler ? handler(state, action) : state;

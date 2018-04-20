@@ -3,7 +3,6 @@
  */
 import React, { Component } from 'react';
 import { Layout } from 'antd';
-import Menu from 'components/common/menu/MainMenu';
 
 const { Header, Footer, Sider } = Layout;
 
@@ -17,11 +16,7 @@ class CoreLayout extends Component {
   };
   render() {
     return (
-      <Layout style={{ minHeight: '100vh' }}>
-        <Layout>
-          <Layout>{this.props.children}</Layout>
-        </Layout>
-      </Layout>
+      <Layout style={{ minHeight: '100vh' }}>{this.props.children}</Layout>
     );
   }
 }

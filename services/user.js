@@ -27,6 +27,15 @@ exports.disconnectUserFromChannel = (uid, cid) => {
   return this.connectUserToChannel(uid, '')
 }
 
+exports.disconnectUserFromChannels = (uid) => {
+  const user = this.getUser(uid)
+  if (!user)
+    return false
+  const {channel} = user
+  this.connectUserToChannel(uid, '')
+  return channel
+}
+
 exports.getUser = id => {
   return users.filter(u => u.id === id)[0]
 }

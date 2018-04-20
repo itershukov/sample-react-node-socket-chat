@@ -2,12 +2,11 @@
  * Created by itersh on 06.03.2018.
  */
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
-import Home from './Home/index';
-import Users from './Users/index';
-import Channels from './Channels/index';
-import Channel from './Channel/index';
+import InternalLayout from 'layouts/InternalLayout';
+import PublicLayout from 'layouts/PublicLayout';
+import AuthRedirect from 'containers/AuthRedirect';
 
 export default class AppRouter extends Component {
   static propTypes = {
@@ -18,10 +17,11 @@ export default class AppRouter extends Component {
   render() {
     return (
       <div>
-        <Route exact path="/" component={Home} />
-        <Route path="/channels/:id" component={Channel} />
-        <Route exact path="/channels" component={Channels} />
-        <Route path="/users" component={Users} />
+        <AuthRedirect />
+        <Switch>
+          <Route exact path="/login" component={PublicLayout} />
+          <Route path="/" component={InternalLayout} />
+        </Switch>
       </div>
     );
   }

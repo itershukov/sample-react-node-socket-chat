@@ -1,0 +1,14 @@
+.channel{
+  .messages{
+    margin-top: 15px;
+    margin-bottom: 83px;
+    min-height: calc(100vh - 15px - 46px - 83px)
+  }
+
+  .message-bar{
+    background: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+}

@@ -3,44 +3,36 @@
  */
 import React from 'react';
 import { Row, Col, List, Form, Button } from 'antd';
-
+import { withRouter } from 'react-router';
+import Link from 'react-router-dom/Link';
 const FormItem = Form.Item;
 
-export default class ChannelsView extends React.Component {
+class ChannelsView extends React.Component {
   static propTypes = {
     // test: PropTypes.string
   };
 
+  componentDidMount() {
+    this.props.getChannels();
+  }
+
+  createChannel() {
+    this.props.createChannel({});
+  }
+
   render() {
-    const ds = [
-      {
-        id: '1',
-        name: '1',
-        participantsCount: 1
-      },
-      {
-        id: '1',
-        name: '2',
-        participantsCount: 1
-      },
-      {
-        id: '1',
-        name: '3',
-        participantsCount: 1
-      },
-      {
-        id: '1',
-        name: '4',
-        participantsCount: 1
-      }
-    ];
+    const ds = this.props.channels;
 
     return (
       <Row>
         <Col span={12} offset={6} style={{ paddingTop: 20 }}>
           <Form onSubmit={this.handleSubmit}>
             <FormItem>
-              <Button type="primary" type="submit">
+              <Button
+                type="primary"
+                type="submit"
+                onClick={this.createChannel.bind(this)}
+              >
                 Start new channel
               </Button>
             </FormItem>
@@ -50,15 +42,17 @@ export default class ChannelsView extends React.Component {
             itemLayout="horizontal"
             dataSource={ds}
             renderItem={item => (
-              <List.Item actions={[<a href={`channels/${item.id}`}>join</a>]}>
+              <List.Item
+                actions={[<Link to={`channels/${item.id}`}>join</Link>]}
+              >
                 <List.Item.Meta
                   title={
-                    <a href={`channels/${item.id}`}>{`Channel #${
+                    <Link to={`channels/${item.id}`}>{`Channel #${
                       item.name
-                    }`}</a>
+                    }`}</Link>
                   }
                 />
-                <div>{`${item.participantsCount} participants`}</div>
+                <div>{`${item.participantsCount || 0} participants`}</div>
               </List.Item>
             )}
           />
@@ -67,3 +61,5 @@ export default class ChannelsView extends React.Component {
     );
   }
 }
+
+export default withRouter(ChannelsView);

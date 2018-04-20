@@ -22,3 +22,5 @@ export const createUser = data =>
 export const updateUser = data =>
   // (dispatch, getState) =>
   ({ type: 'USER_PUT_START', payload: data });
+
+export const logout = () => ({ type: 'LOGOUT_POST_START', payload: null });

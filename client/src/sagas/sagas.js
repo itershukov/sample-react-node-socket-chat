@@ -2,7 +2,8 @@
  * Created by itersh on 14.03.2018.
  */
 import { all } from 'redux-saga/effects';
-import usersSaga from './userSaga'
+import usersSaga from './userSaga';
+import channelSaga from './channelSaga';
 //
 // /*
 //   Alternatively you may use takeLatest.
@@ -16,7 +17,5 @@ import usersSaga from './userSaga'
 // }
 
 export default function* rootSaga() {
-  yield all([
-    ...usersSaga
-  ]);
+  yield all([...usersSaga, ...channelSaga]);
 }

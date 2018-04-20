@@ -1,7 +1,0 @@
-node_modules/*
-.idea*
-client/node_modules/*
-client/tmp/*
-client/build/*
-client/db.json
-client/.idea*
