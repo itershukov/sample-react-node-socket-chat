@@ -1,0 +1,54 @@
+.messages{
+  background: white;
+  padding: 15px;
+
+  &--item{
+    width: 40%;
+    padding: 10px;
+    background: linear-gradient(to right, lightskyblue , lightblue);
+    border-radius: 5px;
+
+    &--header{
+      &--author{
+        font-weight: bold;
+        float: left
+      }
+
+      &--date{
+        color: white;
+        float: right;
+        font-style: italic;
+        font-size: 80%;
+      }
+    }
+
+    &--message{
+      padding-top: 10px;
+      clear: both;
+      text-align: left;
+    }
+
+    float: left;
+    clear: both;
+
+    &__my{
+      float: right;
+      background: none;
+      border: 1px solid gray;
+    }
+
+    &__my &--header--date{
+      color: gray;
+    }
+  }
+
+  &--item + &--item{
+    margin-top: 15px;
+  }
+
+  &:after{
+    content: "";
+    display: block;
+    clear: both;
+  }
+}

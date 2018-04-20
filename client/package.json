@@ -1,0 +1,82 @@
+{
+  "name": "axmit-demo-app",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "antd": "^3.3.0",
+    "history": "^4.7.2",
+    "lodash.unionby": "^4.8.0",
+    "node-sass-chokidar": "^1.2.2",
+    "npm-run-all": "^4.1.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-loadable": "^5.3.1",
+    "react-redux": "^5.0.7",
+    "react-redux-dynamic-reducer": "^2.0.1",
+    "react-redux-subspace": "^2.4.0",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.9",
+    "redux": "^3.7.2",
+    "redux-dynamic-reducer": "^2.0.1",
+    "redux-saga": "^0.16.0",
+    "redux-subspace": "^2.4.0",
+    "redux-subspace-wormhole": "^2.4.0",
+    "redux-thunk": "^2.2.0"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,css}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  },
+  "scripts": {
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "precommit": "lint-staged",
+    "start-js": "react-scripts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build-js": "react-scripts build",
+    "build": "npm-run-all build-css build-js",
+    "dev": "better-npm-run run-dev",
+    "test": "react-scripts test --env=jsdom",
+    "mock": "better-npm-run start-mock-server",
+    "prepare": "better-npm-run generate-mock-data",
+    "eject": "react-scripts eject"
+  },
+  "betterScripts": {
+    "start-mock-server": {
+      "command": "json-server --watch=false tmp/db.json --port 3001 --id login",
+      "env": {
+        "DEBUG": "app:*"
+      }
+    },
+    "generate-mock-data": {
+      "command": "node ./mockServer/generateMockData",
+      "env": {
+        "DEBUG": "app:*"
+      }
+    },
+    "run-dev": {
+      "command": "concurrently \"npm run mock\" \"react-scripts start\"",
+      "env": {
+        "DEBUG": "app:*"
+      }
+    }
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.1",
+    "husky": "^0.14.3",
+    "json-schema-faker": "^0.5.0-rc13",
+    "json-server": "^0.12.1",
+    "lint-staged": "^7.0.0",
+    "prettier": "^1.11.1",
+    "react-scripts": "1.1.1",
+    "redux-logger": "^3.0.6"
+  },
+  "proxy": {
+    "/socket.io": {
+      "target": "ws://localhost:3000",
+      "ws": true
+    }
+  }
+}

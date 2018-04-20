@@ -1,0 +1,186 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('demo-chat:server');
+var http = require('http');
+
+const userService = require('../services/user')
+const messageService = require('../services/message')
+const channelService = require('../services/channel')
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+var io = require('socket.io')(server);
+const session = require("express-session")({
+    secret: "my-secret",
+    resave: true,
+    saveUninitialized: true
+  }),
+  sharedsession = require("express-socket.io-session");
+
+io.use(sharedsession(session));
+
+// io.on("connection", function(socket) {
+//   // Accept a login event with user's data
+//   socket.on("login", function(userdata) {
+//     socket.handshake.session.userdata = userdata;
+//     socket.handshake.session.save();
+//   });
+//   socket.on("logout", function(userdata) {
+//     if (socket.handshake.session.userdata) {
+//       delete socket.handshake.session.userdata;
+//       socket.handshake.session.save();
+//     }
+//   });
+// });
+
+app.use(session);
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+io.on('connection', function (socket) {
+  console.log('connection')
+  socket.emit('channels', {code: 200, body: channelService.getChannels()});
+  socket.on('channels', function (data) {
+    console.log(data);
+    const {type, body} = data
+      , {userdata} = socket.handshake.session
+
+    if (!userdata)
+      return socket.emit('channels', {code: 401})
+
+    switch (type){
+      case 'CREATE':
+        {
+          const ch = channelService.createChannel(body)
+          const res = {code: 200, body: ch}
+          socket.broadcast.emit('channels', res)
+        }
+        break;
+      case 'JOIN':
+        {
+          const chId = body
+          const connected = userService.connectUserToChannel(userdata.id, chId)
+          if (!connected)
+            return socket.emit('channels', {code: 400, body})
+
+          const res = {code: 200, body: chId}
+          socket.on(chId, function(data){
+            const {type, body} = data
+            const msg = messageService.createMessage({...body, author: userdata.id, channel: chId})
+            const res = {code: 200, body: msg}
+            socket.broadcast.to(chId).emit(res)
+          });
+          socket.emit('channels', res)
+        }
+        break;
+      case 'GET':
+        {
+          const res = {code: 200, body: channelService.getChannels()}
+        }
+        socket.emit('channels', res);
+      default:
+        const res = {code: 400, body}
+        socket.emit('channels', res)
+    }
+  });
+  socket.on('users', function (data, cb) {
+    console.log(data);
+    const {type, body} = data
+
+    switch (type){
+      case 'CREATE':
+        {
+          const usr = userService.createUser(body)
+          const res = {code: 200, body: usr}
+          socket.handshake.session.userdata = usr
+          socket.handshake.session.save()
+          cb(res)
+          socket.emit('users', res)
+        }
+        break;
+      default:
+        const res = {code: 400, body}
+        socket.emit('users', res)
+    }
+  });
+});
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

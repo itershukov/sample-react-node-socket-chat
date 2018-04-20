@@ -1,0 +1,13 @@
+.message-bar{
+  background: white;
+  border-top: 1px solid lightgray;
+
+  &__form{
+    padding: 15px 0;
+
+    &__textarea{
+      width: 100%;
+      border-color: lightgray;
+    }
+  }
+}
